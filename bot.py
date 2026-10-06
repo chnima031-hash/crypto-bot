@@ -5,9 +5,9 @@ import re
 import requests
 
 # ==================== تنظیمات ====================
-BOT_TOKEN = os.environ["BOT_TOKEN"]
-CHANNEL_ID = os.environ["CHANNEL_ID"]
-OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
+BOT_TOKEN = os.environ["BOT_TOKEN"].strip()
+CHANNEL_ID = os.environ["CHANNEL_ID"].strip()
+OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"].strip()
 
 # ==================== خواندن بازی‌ها ====================
 with open('games.json', 'r', encoding='utf-8') as f:
