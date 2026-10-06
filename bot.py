@@ -27,13 +27,13 @@ post_text = None
 
 try:
     response = requests.post(
-        url="https://openrouter.ai/api/v1/chat/completions",
+        url="https://api.groq.com/openai/v1/chat/completions",
         headers={
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json",
         },
         json={
-            "model": "meta-llama/llama-3.3-70b-instruct:free",
+            "model": "llama-3.3-70b-versatile",
             "messages": [
                 {
                     "role": "system",
@@ -63,7 +63,15 @@ try:
         timeout=60
     )
     
-    ai_text = response.json()["choices"][0]["message"]["content"]
+    response_json = response.json()
+    print(f"AI Response status: {response.status_code}")
+    
+    if "choices" not in response_json:
+        print(f"AI Error Response: {response_json}")
+        raise Exception(f"AI Error: {response_json}")
+    
+    ai_text = response_json["choices"][0]["message"]["content"]
+    print("AI Post generated successfully!")
     
     # فیلتر کردن خروجی AI
     ai_text = re.sub(r'http\S+', '', ai_text)
@@ -83,7 +91,6 @@ try:
 🎮 عضو کانال ما شوید:
 {CHANNEL_ID}
 """
-        print("AI Post generated successfully!")
 
 except Exception as e:
     print(f"AI Error: {e}")
@@ -101,7 +108,12 @@ try:
         timeout=30
     )
     print(f"Telegram response: {telegram_response.status_code}")
-    print("Post sent successfully!")
+    print(f"Telegram body: {telegram_response.text}")
     
+    if telegram_response.status_code == 200:
+        print("Post sent successfully!")
+    else:
+        print(f"Telegram Error: {telegram_response.text}")
+
 except Exception as e:
     print(f"Telegram Error: {e}")
