@@ -33,7 +33,7 @@ try:
             "Content-Type": "application/json",
         },
         json={
-            "model": "llama-3.3-70b-versatile",
+            "model": "llama-3.1-8b-instant",
             "messages": [
                 {
                     "role": "system",
@@ -73,7 +73,6 @@ try:
     ai_text = response_json["choices"][0]["message"]["content"]
     print("AI Post generated successfully!")
     
-    # فیلتر کردن خروجی AI
     ai_text = re.sub(r'http\S+', '', ai_text)
     ai_text = re.sub(r'www\.\S+', '', ai_text)
     
